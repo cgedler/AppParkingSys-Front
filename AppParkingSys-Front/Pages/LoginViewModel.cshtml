@@ -1,0 +1,17 @@
+﻿@page
+@using AppParkingSys_Front.Models
+@model LoginViewModel
+@{
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+            <label asp-for="PasswordHash"></label>
+            <input asp-for="PasswordHash" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+}
