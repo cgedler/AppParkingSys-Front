@@ -1,0 +1,11 @@
+﻿@page
+@model AppParkingSys_Front.Pages.TicketsModel
+@{
+	<p>Pagina de los tickets</p>
+	<ul>
+		@foreach (var x in Model.ViewData)
+		{
+			<li>@x</li>
+		}
+	</ul>
+}

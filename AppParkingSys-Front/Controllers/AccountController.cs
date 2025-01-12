@@ -5,14 +5,17 @@ namespace AppParkingSys_Front.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ILogger<AccountController> _logger;
         private readonly IApiService _apiService;
-        public AccountController(IApiService apiService)
+        public AccountController(IApiService apiService, ILogger<AccountController> logger)
         {
+            _logger = logger;
             _apiService = apiService;
         }
         [HttpGet]
         public IActionResult Login()
         {
+            _logger.LogInformation("AccountController - Login()");
             return View();
         }
 

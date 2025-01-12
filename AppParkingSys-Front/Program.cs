@@ -1,10 +1,31 @@
 using AppParkingSys_Front.Services;
 using System.Net.Http.Headers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+//Add support to logging with SERILOG
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddEventSourceLogger();
+
+// Configuration Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Debug()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+//Log.Information("Test message log");
+
 
 builder.Services.AddHttpClient("ApiClient", client =>
 {
@@ -28,6 +49,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -40,5 +63,7 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default", 
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.UseSerilogRequestLogging(); //test
 
 app.Run();
