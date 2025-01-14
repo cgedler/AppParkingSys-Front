@@ -1,4 +1,5 @@
-﻿namespace AppParkingSys_Front.Models
+﻿
+namespace AppParkingSys_Front.Models
 {
     public class Ticket
     {

@@ -1,0 +1,24 @@
+﻿@page
+@model AppParkingSys_Front.Pages.LoginModel
+@{
+	ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post">
+    <!-- Email input -->
+    <div class="form-group">
+        <input asp-for="Email" type="email" class="form-control" />
+        <label asp-for="Email" class="form-label">Email address</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-group">
+        <input asp-for="Password" type="password" class="form-control" />
+        <label asp-for="Password"  class="form-label">Password</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+</form>
