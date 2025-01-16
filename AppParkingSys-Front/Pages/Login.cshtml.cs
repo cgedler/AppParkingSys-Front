@@ -1,4 +1,4 @@
-using AppParkingSys_Front.Services;
+using AppParkingSys_Front.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -30,9 +30,8 @@ namespace AppParkingSys_Front.Pages
                     Secure = true,
                     Expires = DateTime.UtcNow.AddHours(1)
                 };
-                HttpContext.Response.Cookies.Append("token", token, cookieOptions);
-                _logger.LogInformation("Token: " + token);
-                return RedirectToPage("/Privacy");
+                HttpContext.Response.Cookies.Append("AuthToken", token, cookieOptions);
+                return RedirectToPage("Privacy");
             }
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return Page();

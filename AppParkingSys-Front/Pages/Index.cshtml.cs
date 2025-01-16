@@ -14,6 +14,5 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        _logger.LogInformation("Consola message****************************");
     }
 }

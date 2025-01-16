@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
+using AppParkingSys_Front.Interfaces.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
 // Configuration HttpClient
 builder.Services.AddHttpClient("ApiClient", client =>
 {
@@ -43,6 +46,9 @@ builder.Services.AddHttpClient("ApiClient", client =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
@@ -60,6 +66,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();

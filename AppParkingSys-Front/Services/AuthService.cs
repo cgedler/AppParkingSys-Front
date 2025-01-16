@@ -1,4 +1,5 @@
-﻿using AppParkingSys_Front.Models;
+﻿using AppParkingSys_Front.Interfaces.Services;
+using AppParkingSys_Front.Models;
 using AppParkingSys_Front.Pages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,6 @@ namespace AppParkingSys_Front.Services
         private readonly ILogger<AuthService> _logger;
         private readonly IHttpClientFactory _httpClientFactory; 
         private readonly IConfiguration _configuration;
-
 
         public AuthService(ILogger<AuthService> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
@@ -42,19 +42,6 @@ namespace AppParkingSys_Front.Services
             }
             return "null";
         }
-        async Task<List<Ticket>?> IAuthService.GetTicketsAsync()
-        {
-            _logger.LogInformation("Inside IAuthService.GetTicketsAsync()");
-            var client = _httpClientFactory.CreateClient("ApiClient");
-            var response = await client.GetAsync("ticket");
-            response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation("Content JSON: " + content);
-                return JsonConvert.DeserializeObject<List<Ticket>?>(content);
-            }
-            return null;
-        }
+
     }
 }

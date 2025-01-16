@@ -1,58 +1,92 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AppParkingSys_Front</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AppParkingSys_Front.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - AppParkingSys_Front</title>
+	<script type="importmap"></script>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/AppParkingSys_Front.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">AppParkingSys_Front</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/TicketsList">Tickets</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex">
-                    <a class="btn btn-light ms-3 text-dark" asp-area="" asp-page="/Login">Login</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - AppParkingSys_Front - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" asp-area="" asp-page="/Index">AppParkingSys</a>
+				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false">
+					<span class="sr-only"></span>
+				</button>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li>
+							<a asp-area="" asp-page="/Index">Home</a>
+						</li>
+						<li>
+							<a asp-area="" asp-page="/Privacy">Privacy</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Payments <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">Ticket Dispenser</li>
+								<li><a asp-area="Tickets" asp-page="/RegisterTicket">Dispenser</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a asp-area="Tickets" asp-page="/TicketGetAll">Get All Tickets</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Price <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">Ticket Dispenser</li>
+								<li><a asp-area="Tickets" asp-page="/RegisterTicket">Dispenser</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a asp-area="Tickets" asp-page="/TicketGetAll">Get All Tickets</a></li>
+							</ul>
+						</li>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tickets <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">Ticket Dispenser</li>
+								<li><a asp-area="Tickets" asp-page="/RegisterTicket">Dispenser</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a asp-area="Tickets" asp-page="/TicketGetAll">Get All Tickets</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a asp-area="Users" asp-page="/UsersGetAll">Users</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a class="btn btn-light text-dark" asp-area="" asp-page="/Login">Login <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    @await RenderSectionAsync("Scripts", required: false)
+	<div class="row">
+		<div class="container">
+			<main role="main" class="">
+				@RenderBody()
+			</main>
+		</div>
+	</div>
+
+	<footer class="footer">
+		<div class="container">
+			&copy; 2025 - AppParkingSys - <a asp-area="" asp-page="/Privacy">Privacy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

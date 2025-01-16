@@ -1,0 +1,38 @@
+﻿@page
+@model AppParkingSys_Front.Areas.Users.Pages.UsersGetAllModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "List Users page";
+}
+<h1>Items</h1>
+<div class="row">
+    <table class="table table-striped" style="background-color:#fff;color:#333;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UserList)
+            {
+                <tr>
+                    <td>@item.Id </td>
+                    <td>@item.Email</td>
+                    <td>@item.Role</td>
+                    <td class ="text-center">
+                        <form method="POST" action="">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-success" onclick="" title="Detalle"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="" title="Actualizar"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return delete_item();" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
