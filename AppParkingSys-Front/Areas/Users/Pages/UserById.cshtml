@@ -1,6 +1,9 @@
-﻿@page
+﻿@page "{id:int}"
 @model AppParkingSys_Front.Areas.Users.Pages.UserByIdModel
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
 	ViewData["Title"] = "";
 }
+<p>@Model.user.Id</p>
+<p>@Model.user.Email</p>
+<p>@Model.user.Role</p>

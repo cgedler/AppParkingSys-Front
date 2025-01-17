@@ -17,14 +17,30 @@ namespace AppParkingSys_Front.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        Task<User> IUserService.DeleteUser(int id)
+        async Task<User?> IUserService.DeleteUser(int id, string token)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var httpResponse = await client.DeleteAsync("user/" + id);
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<User?>(responseContent);
+            }
+            return null;
         }
 
-        Task<User?> IUserService.GetUserById(int id)
+        async Task<User?> IUserService.GetUserById(int id, string token)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var httpResponse = await client.GetAsync("user/" + id);
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<User?>(responseContent);
+            }
+            return null;
         }
 
         async Task<List<User>?> IUserService.GetUsersAsync(string token)
@@ -39,12 +55,12 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-        Task<User> IUserService.RegisterUser(User user)
+        Task<User> IUserService.RegisterUser(User user, string token)
         {
             throw new NotImplementedException();
         }
 
-        Task<User> IUserService.UpdateUser(int id, User user)
+        Task<User> IUserService.UpdateUser(int id, User user, string token)
         {
             throw new NotImplementedException();
         }

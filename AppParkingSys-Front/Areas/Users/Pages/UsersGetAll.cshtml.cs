@@ -45,6 +45,31 @@ namespace AppParkingSys_Front.Areas.Users.Pages
             return Page();
         }
 
+        public async Task<IActionResult> OnPost(int id)
+        {
+            _logger.LogError("Entro en PostDelete");
+            var token = GetTokenFromCookie();
+            if (token == null)
+            {
+                TempData["ErrorMessage"] = "No active token found for the request.";
+                _logger.LogError("No active token found for the request.");
+                return RedirectToPage("Error");
+            }
+
+            var result = await _userService.DeleteUser(id, token);
+            if (result != null)
+            {
+                TempData["Message"] = "User: " + id + " was deleted";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No information found to display.";
+                _logger.LogError("No information found to display.");
+                return RedirectToPage("Error");
+            }
+            return RedirectToPage();
+        }
+
         public string? GetTokenFromCookie()
         {
             string? token = string.Empty;

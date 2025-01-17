@@ -3,4 +3,9 @@
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
 	ViewData["Title"] = "";
+	var Message = TempData["Message"] as string;
 }
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="text-danger">@Message</p>
+} 
