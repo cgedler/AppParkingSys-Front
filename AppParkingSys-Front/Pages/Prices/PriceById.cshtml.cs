@@ -2,22 +2,20 @@ using AppParkingSys_Front.Interfaces.Services;
 using AppParkingSys_Front.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace AppParkingSys_Front.Areas.Users.Pages
+namespace AppParkingSys_Front.Pages.Prices
 {
-    public class UserByIdModel : PageModel
+    public class PriceByIdModel : PageModel
     {
-        private readonly ILogger<UserByIdModel> _logger;
-        private readonly IUserService _userService;
-        public required User user { get; set; }
-        public UserByIdModel(ILogger<UserByIdModel> logger, IUserService userService)
+        private readonly ILogger<PriceByIdModel> _logger;
+        private readonly IPriceService _priceService;
+        public Price? price { get; set; }
+        public PriceByIdModel(ILogger<PriceByIdModel> logger, IPriceService priceService)
         {
             _logger = logger;
-            _userService = userService;
+            _priceService = priceService;
         }
-
         public async Task<IActionResult> OnGet(int id)
         {
             var token = GetTokenFromCookie();
@@ -25,19 +23,18 @@ namespace AppParkingSys_Front.Areas.Users.Pages
             {
                 TempData["ErrorMessage"] = "No active token found for the request.";
                 _logger.LogError("No active token found for the request.");
-                return RedirectToPage("Error");
+                return RedirectToPage("/Error");
             }
-            var result = await _userService.GetUserById(id, token);
-            var user = new User { Id=0, Email="", PasswordHash="", Role=""};
+            var result = await _priceService.GetPriceById(id, token);
             if (result != null)
             {
-                user = result;
+                this.price = result;
             }
             else
             {
                 TempData["ErrorMessage"] = "No information found to display.";
                 _logger.LogError("No information found to display.");
-                return RedirectToPage("Error");
+                return RedirectToPage("/Error");
             }
             return Page();
         }

@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Payments\Pages\" />
-    <Folder Include="Areas\Price\Pages\" />
+    <Folder Include="Pages\Payments\" />
     <Folder Include="logs\" />
+    <Folder Include="Pages\test\" />
   </ItemGroup>
 
   <ItemGroup>

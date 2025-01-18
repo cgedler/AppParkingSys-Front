@@ -1,0 +1,16 @@
+﻿@page
+@model AppParkingSys_Front.Pages.Prices.RegisterPriceModel
+@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Register Price";
+}
+<form method="post">
+    <!-- Amount input -->
+    <div class="form-group">
+        <input asp-for="@Model.price.Amount" type="number" class="form-control" />
+        <label asp-for="price.Amount" class="form-label">Role</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+</form>

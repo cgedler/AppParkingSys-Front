@@ -32,7 +32,12 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(options => 
+    {
+        options.LoginPath = "/Login"; 
+        options.LogoutPath = "/Logout";
+    });
 
 // Configuration HttpClient
 builder.Services.AddHttpClient("ApiClient", client =>
@@ -49,8 +54,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 
 var app = builder.Build();
 

@@ -1,0 +1,28 @@
+﻿@page "{id:int}"
+@model Users.UpdateUserModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Update User";
+}
+<form method="post">
+    <!-- Email input -->
+    <div class="form-group">
+        <input asp-for="@Model.user.Email" type="email" class="form-control" />
+        <label asp-for="user.Email" class="form-label">Email address</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-group">
+        <input asp-for="@Model.user.PasswordHash" type="password" class="form-control" />
+        <label asp-for="user.PasswordHash" class="form-label">Password</label>
+    </div>
+
+    <!-- Role input -->
+    <div class="form-group">
+        <input asp-for="@Model.user.Role" type="text" class="form-control" />
+        <label asp-for="user.Role" class="form-label">Role</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Save Changes</button>
+</form>

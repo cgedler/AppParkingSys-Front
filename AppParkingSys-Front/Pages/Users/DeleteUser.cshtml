@@ -1,8 +1,8 @@
-﻿@page
-@model AppParkingSys_Front.Areas.Users.Pages.DeleteUserModel
+﻿@page "{id:int}"
+@model Users.DeleteUserModel
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
-	ViewData["Title"] = "";
+	ViewData["Title"] = "Delete User";
 	var Message = TempData["Message"] as string;
 }
 @if (!string.IsNullOrEmpty(Message))

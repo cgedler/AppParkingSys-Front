@@ -1,0 +1,9 @@
+﻿@page "{id:int}"
+@model Users.UserByIdModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "User Details";
+}
+<p><strong>Id:</strong> @Model.user.Id</p>
+<p><strong>Email:</strong> @Model.user.Email</p>
+<p><strong>Role:</strong> @Model.user.Role</p>

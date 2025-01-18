@@ -1,0 +1,42 @@
+﻿@page
+@model Prices.PriceGetAllModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "List Price";
+	var Message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="alert-info">@Message</p>
+}
+<h1>Items</h1>
+<div class="row">
+	<a class="btn btn-sm btn-default" asp-page="./RegisterPrice"><span class="glyphicon glyphicon-plus"></span></a>
+</div>
+<div class="row">
+	<table class="table table-striped" style="background-color:#fff;color:#333;">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Amount</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.PriceList)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Amount</td>
+					<td class="text-center">
+						<div class="btn-group">
+							<a class="btn btn-sm btn-success" asp-page="./PriceById" asp-route-id="@item.Id"><span class="glyphicon glyphicon-eye-open"></span></a>
+							<a class="btn btn-sm btn-primary" asp-page="./UpdatePrice" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="btn btn-sm btn-danger" asp-page="./DeletePrice" asp-route-id="@item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

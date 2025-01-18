@@ -1,75 +1,69 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Reflection;
 using AppParkingSys_Front.Interfaces.Services;
 using AppParkingSys_Front.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Logging;
 
-namespace AppParkingSys_Front.Areas.Users.Pages
+namespace AppParkingSys_Front.Pages.Prices
 {
-    public class UsersGetAllModel : PageModel
+    public class UpdatePriceModel : PageModel
     {
-        private readonly ILogger<UsersGetAllModel> _logger;
-        private readonly IUserService _userService;
-        public required List<User> UserList { get; set; }
-
-        public UsersGetAllModel(ILogger<UsersGetAllModel> logger, IUserService userService)
+        private readonly ILogger<UpdatePriceModel> _logger;
+        private readonly IPriceService _priceService;
+        [BindProperty]
+        public Price? price { get; set; }
+        public UpdatePriceModel(ILogger<UpdatePriceModel> logger, IPriceService priceService)
         {
             _logger = logger;
-            _userService = userService;
+            _priceService = priceService;
         }
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(int id)
         {
             var token = GetTokenFromCookie();
             if (token == null)
             {
                 TempData["ErrorMessage"] = "No active token found for the request.";
                 _logger.LogError("No active token found for the request.");
-                return RedirectToPage("Error");
+                return RedirectToPage("/Error");
             }
-            var result = await _userService.GetUsersAsync(token);
-            UserList = new List<User>();
+            var result = await _priceService.GetPriceById(id, token);
             if (result != null)
             {
-                UserList = result;
+                this.price = result;
             }
             else
             {
                 TempData["ErrorMessage"] = "No information found to display.";
                 _logger.LogError("No information found to display.");
-                return RedirectToPage("Error");
+                return RedirectToPage("/Error");
             }
             return Page();
         }
-
         public async Task<IActionResult> OnPost(int id)
         {
-            _logger.LogError("Entro en PostDelete");
             var token = GetTokenFromCookie();
             if (token == null)
             {
                 TempData["ErrorMessage"] = "No active token found for the request.";
                 _logger.LogError("No active token found for the request.");
-                return RedirectToPage("Error");
+                return RedirectToPage("/Error");
             }
-
-            var result = await _userService.DeleteUser(id, token);
-            if (result != null)
+            if (this.price != null)
             {
-                TempData["Message"] = "User: " + id + " was deleted";
+                var result = await _priceService.UpdatePrice(id, this.price, token);
+                if (result != null)
+                {
+                    TempData["Message"] = "Price was update.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "No information found to display.";
+                    _logger.LogError("No information found to display.");
+                    return RedirectToPage("Error");
+                }
             }
-            else
-            {
-                TempData["ErrorMessage"] = "No information found to display.";
-                _logger.LogError("No information found to display.");
-                return RedirectToPage("Error");
-            }
-            return RedirectToPage();
+            return RedirectToPage("/Prices/PriceGetAll");
         }
-
         public string? GetTokenFromCookie()
         {
             string? token = string.Empty;

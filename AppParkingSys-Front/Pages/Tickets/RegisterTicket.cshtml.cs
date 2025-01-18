@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AppParkingSys_Front.Areas.Users.Pages
+namespace AppParkingSys_Front.Pages.Tickets
 {
-    public class DeleteUserModel : PageModel
+    public class RegisterTicketModel : PageModel
     {
         public void OnGet()
         {

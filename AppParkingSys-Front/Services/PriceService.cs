@@ -1,28 +1,27 @@
 ﻿using AppParkingSys_Front.Interfaces.Services;
 using AppParkingSys_Front.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net.Http;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text;
 
 namespace AppParkingSys_Front.Services
 {
-    public class UserService : IUserService
+    public class PriceService : IPriceService
     {
-        private readonly ILogger<UserService> _logger;
+        private readonly ILogger<PriceService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        public UserService(ILogger<UserService> logger, IHttpClientFactory httpClientFactory)
+        public PriceService(ILogger<PriceService> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
 
-        async Task<string?> IUserService.DeleteUser(int id, string token)
+        async Task<string?> IPriceService.DeletePrice(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var httpResponse = await client.DeleteAsync("user/" + id);
+            var httpResponse = await client.DeleteAsync("price/" + id);
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
@@ -31,68 +30,67 @@ namespace AppParkingSys_Front.Services
             return null;
         }
 
-        async Task<User?> IUserService.GetUserById(int id, string token)
+        async Task<Price?> IPriceService.GetPriceById(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var httpResponse = await client.GetAsync("user/" + id);
+            var httpResponse = await client.GetAsync("price/" + id);
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<User?>(responseContent);
+                return JsonConvert.DeserializeObject<Price?>(responseContent);
             }
             return null;
         }
 
-        async Task<List<User>?> IUserService.GetUsersAsync(string token)
+        async Task<List<Price>?> IPriceService.GetPricesAsync(string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var httpResponse = await client.GetAsync("user");
+            var httpResponse = await client.GetAsync("price");
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<User>?>(responseContent);
+                return JsonConvert.DeserializeObject<List<Price>?>(responseContent);
             }
             return null;
         }
-        async Task<User?> IUserService.RegisterUser(User user, string token)
+
+        async Task<Price?> IPriceService.RegisterPrice(Price price, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             object obj = new
             {
-                email = user.Email,
-                passwordHash = user.PasswordHash,
-                role = user.Role
+                amount = price.Amount
             };
             string dataToJson = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
-            var httpResponse = await client.PostAsync("user", httpContent);
+            var httpResponse = await client.PostAsync("price", httpContent);
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<User?>(responseContent);
+                return JsonConvert.DeserializeObject<Price?>(responseContent);
             }
             return null;
         }
 
-        async Task<User?> IUserService.UpdateUser(int id, User user, string token)
+        async Task<Price?> IPriceService.UpdatePrice(int id, Price price, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            object obj = new { 
+            object obj = new
+            {
                 id = id,
-                email = user.Email,
-                passwordHash = user.PasswordHash,
-                role =  user.Role };
+                amount = price.Amount
+            };
             string dataToJson = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
-            var httpResponse = await client.PutAsync("user/" + id, httpContent);
+            var httpResponse = await client.PutAsync("price/" + id, httpContent);
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<User?>(responseContent);
+                return JsonConvert.DeserializeObject<Price?>(responseContent);
             }
             return null;
         }

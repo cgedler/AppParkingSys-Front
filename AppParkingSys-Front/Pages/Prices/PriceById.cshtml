@@ -1,0 +1,8 @@
+﻿@page "{id:int}"
+@model Prices.PriceByIdModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Price Details";
+}
+<p><strong>Id:</strong> @Model.price.Id</p>
+<p><strong>Amount:</strong> @Model.price.Amount</p>

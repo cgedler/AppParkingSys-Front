@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
-namespace AppParkingSys_Front.Areas.Tickets.Pages
+namespace AppParkingSys_Front.Pages.Tickets
 {
     public class TicketGetAllModel : PageModel
     {

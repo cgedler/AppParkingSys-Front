@@ -1,0 +1,44 @@
+﻿@page
+@model Users.UsersGetAllModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "List Users";
+	var Message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="alert-info">@Message</p>
+}
+<h1>Items</h1>
+<div class="row">
+	<a class="btn btn-sm btn-default" asp-page="./RegisterUser" ><span class="glyphicon glyphicon-plus"></span></a>
+</div>
+<div class="row">
+	<table class="table table-striped" style="background-color:#fff;color:#333;">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.UserList)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.Email</td>
+					<td>@item.Role</td>
+					<td class="text-center">
+						<div class="btn-group">
+							<a class="btn btn-sm btn-success" asp-page="./UserById" asp-route-id="@item.Id"><span class="glyphicon glyphicon-eye-open"></span></a>
+							<a class="btn btn-sm btn-primary" asp-page="./UpdateUser" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a class="btn btn-sm btn-danger" asp-page="./DeleteUser" asp-route-id="@item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
