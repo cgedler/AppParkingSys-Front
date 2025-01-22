@@ -1,0 +1,33 @@
+﻿@page
+@model Payments.RegisterPaymentModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Register Payment";
+	var Message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="alert-info">@Message</p>
+}
+<h1>Tickets</h1>
+<form method="post">
+	<!-- Id input -->
+	<div class="form-group">
+	<input asp-for="@Model.ticket.Id" type="number" class="form-control" disabled />
+	<label asp-for="ticket.Id" class="form-label">Id</label>
+	</div>
+
+	<!-- EntryTime input -->
+	<div class="form-group">
+	<input asp-for="@Model.ticket.EntryTime" type="date" class="form-control" disabled />
+	<label asp-for="ticket.EntryTime" class="form-label">EntryTime</label>
+		</div>
+
+	<!-- Amount input -->
+	<div class="form-group">
+		<input asp-for="@Model.Amount" type="number" class="form-control" />
+		<label asp-for="Amount" class="form-label">Amount</label>
+	</div>
+	<!-- Submit button -->
+	<button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+</form>

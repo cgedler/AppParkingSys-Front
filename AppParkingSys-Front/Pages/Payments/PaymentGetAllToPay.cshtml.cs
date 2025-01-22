@@ -4,17 +4,15 @@ using AppParkingSys_Front.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace AppParkingSys_Front.Pages.Tickets
+namespace AppParkingSys_Front.Pages.Payments
 {
-    public class TicketGetAllModel : PageModel
+    public class PaymentGetAllToPayModel : PageModel
     {
-        private readonly ILogger<TicketGetAllModel> _logger;
+        private readonly ILogger<PaymentGetAllToPayModel> _logger;
         private readonly ITicketService _ticketService;
         public List<Ticket>? TicketList { get; set; }
-
-        public TicketGetAllModel(ILogger<TicketGetAllModel> logger, ITicketService ticketService)
+        public PaymentGetAllToPayModel(ILogger<PaymentGetAllToPayModel> logger, ITicketService ticketService)
         {
             _logger = logger;
             _ticketService = ticketService;
@@ -28,11 +26,11 @@ namespace AppParkingSys_Front.Pages.Tickets
                 _logger.LogError("No active token found for the request.");
                 return RedirectToPage("/Error");
             }
-            var result = await _ticketService.GetAll(token);
+            var result = await _ticketService.GetToPay(token);
             TicketList = new List<Ticket>();
             if (result != null)
             {
-                TicketList = result;
+                TicketList = (List<Ticket>)result;
             }
             else
             {

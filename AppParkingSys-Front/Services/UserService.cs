@@ -17,7 +17,6 @@ namespace AppParkingSys_Front.Services
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-
         async Task<string?> IUserService.DeleteUser(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -30,7 +29,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<User?> IUserService.GetUserById(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -43,7 +41,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<List<User>?> IUserService.GetUsersAsync(string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -76,7 +73,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<User?> IUserService.UpdateUser(int id, User user, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");

@@ -11,16 +11,16 @@ namespace AppParkingSys_Front.Pages
     {
         private readonly ILogger<LoginModel> _logger;
         private readonly IAuthService _authService;
-
+        [BindProperty]
+        public required string Email { get; set; }
+        [BindProperty]
+        public required string Password { get; set; }
         public LoginModel(ILogger<LoginModel> logger, IAuthService authService)
         {
             _logger = logger;
             _authService = authService;
         }
-        [BindProperty]
-        public required string Email { get; set; }
-        [BindProperty]
-        public required string Password { get; set; }
+       
         public async Task<IActionResult> OnPostAsync()
         {
             var token = await _authService.LoginAsync(Email, Password);

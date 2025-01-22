@@ -2,5 +2,15 @@
 @model Tickets.RegisterTicketModel
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
-	ViewData["Title"] = "";
+	ViewData["Title"] = "Register Ticket";
+	var Message = TempData["Message"] as string;
 }
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="alert-info">@Message</p>
+}
+<h1>Tickets</h1>
+<form method="post">
+ <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+</form>

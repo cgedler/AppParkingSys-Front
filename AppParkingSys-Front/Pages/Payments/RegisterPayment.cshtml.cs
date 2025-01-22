@@ -4,22 +4,26 @@ using AppParkingSys_Front.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace AppParkingSys_Front.Pages.Tickets
+namespace AppParkingSys_Front.Pages.Payments
 {
-    public class TicketGetAllModel : PageModel
+    public class RegisterPaymentModel : PageModel
     {
-        private readonly ILogger<TicketGetAllModel> _logger;
+        private readonly ILogger<RegisterPaymentModel> _logger;
         private readonly ITicketService _ticketService;
-        public List<Ticket>? TicketList { get; set; }
-
-        public TicketGetAllModel(ILogger<TicketGetAllModel> logger, ITicketService ticketService)
+        private readonly IPaymentService _paymentService;
+        [BindProperty]
+        public Ticket? ticket { get; set; }
+        [BindProperty]
+        public decimal? Amount { get; set; }
+        public RegisterPaymentModel(ILogger<RegisterPaymentModel> logger, ITicketService ticketService, IPaymentService paymentService)
         {
             _logger = logger;
             _ticketService = ticketService;
+            _paymentService = paymentService;
         }
-        public async Task<IActionResult> OnGet()
+
+        public async Task<IActionResult> OnGet(int id)
         {
             var token = GetTokenFromCookie();
             if (token == null)
@@ -28,11 +32,29 @@ namespace AppParkingSys_Front.Pages.Tickets
                 _logger.LogError("No active token found for the request.");
                 return RedirectToPage("/Error");
             }
-            var result = await _ticketService.GetAll(token);
-            TicketList = new List<Ticket>();
+            var result = await _ticketService.GetTicketById(id, token);
             if (result != null)
             {
-                TicketList = result;
+                this.ticket = result;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No information found to display.";
+                _logger.LogError("No information found to display.");
+                return RedirectToPage("/Error");
+            }
+            return Page();
+        }
+        public async Task<IActionResult> OnPost()
+        {
+            Ticket ticket = new Ticket();
+            ticket.EntryTime = DateTime.Now;
+            ticket.ExitTime = null;
+            var result = await _ticketService.RegisterTicket(ticket);
+            if (result != null)
+            {
+                var ticketId = result.Id;
+                TempData["Message"] = ticketId + " Ticket was register";
             }
             else
             {

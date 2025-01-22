@@ -1,7 +1,11 @@
 ﻿using AppParkingSys_Front.Interfaces.Services;
 using AppParkingSys_Front.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace AppParkingSys_Front.Services
 {
@@ -14,36 +18,60 @@ namespace AppParkingSys_Front.Services
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-
-        async Task<IEnumerable<Ticket>?> ITicketService.GetAll()
+        async Task<List<Ticket>?> ITicketService.GetAll(string token)
         {
-            _logger.LogInformation("Inside IAuthService.GetTicketsAsync()");
             var client = _httpClientFactory.CreateClient("ApiClient");
-            var response = await client.GetAsync("ticket");
-            response.EnsureSuccessStatusCode();
-            if (response.IsSuccessStatusCode)
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var httpResponse = await client.GetAsync("ticket");
+            if (httpResponse.Content != null)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation("Content JSON: " + content);
-                return JsonConvert.DeserializeObject<List<Ticket>?>(content);
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Ticket>?>(responseContent);
             }
             return null;
         }
-
-        Task<Ticket?> ITicketService.GetTicketById(int id)
+        async Task<List<Ticket>?> ITicketService.GetToPay(string token)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var httpResponse = await client.GetAsync("ticket/topay");
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Ticket>?>(responseContent);
+            }
+            return null;
         }
-
-        Task<Ticket> ITicketService.RegisterTicket(Ticket ticket)
+        async Task<Ticket?> ITicketService.GetTicketById(int id, string token)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var httpResponse = await client.GetAsync("ticket/" + id);
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Ticket?>(responseContent);
+            }
+            return null;
         }
-
-        Task<Ticket> ITicketService.UpdateTicket(int id, Ticket ticket)
+        async Task<Ticket?> ITicketService.RegisterTicket(Ticket ticket)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            object obj = new
+            {
+                entryTime = ticket.EntryTime,
+                exitTime = ticket.ExitTime
+            };
+            string dataToJson = JsonConvert.SerializeObject(obj);
+            _logger.LogError("obj " + dataToJson);
+            var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
+            var httpResponse = await client.PostAsync("ticket", httpContent);
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Ticket?>(responseContent);
+            }
+            return null;
         }
-
     }
 }

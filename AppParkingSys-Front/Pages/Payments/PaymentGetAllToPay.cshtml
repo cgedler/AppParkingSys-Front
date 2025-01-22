@@ -1,0 +1,40 @@
+﻿@page
+@model Payments.PaymentGetAllToPayModel
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "List Payments";
+	var Message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+	<p class="alert-info">@Message</p>
+}
+<h1>Items</h1>
+<div class="row">
+	<a class="btn btn-sm btn-default" asp-page="./RegisterUser"><span class="glyphicon glyphicon-plus"></span></a>
+</div>
+<div class="row">
+	<table class="table table-striped" style="background-color:#fff;color:#333;">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>EntryTime</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.TicketList)
+			{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.EntryTime</td>
+					<td class="text-center">
+						<div class="btn-group">
+							<a class="btn btn-sm btn-primary" asp-page="./RegisterPayment" asp-route-id="@item.Id"><span class="glyphicon glyphicon-pencil"></span></a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

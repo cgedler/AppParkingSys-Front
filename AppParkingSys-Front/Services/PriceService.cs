@@ -16,7 +16,6 @@ namespace AppParkingSys_Front.Services
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
-
         async Task<string?> IPriceService.DeletePrice(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -29,7 +28,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<Price?> IPriceService.GetPriceById(int id, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -42,7 +40,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<List<Price>?> IPriceService.GetPricesAsync(string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -55,7 +52,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<Price?> IPriceService.RegisterPrice(Price price, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -74,7 +70,6 @@ namespace AppParkingSys_Front.Services
             }
             return null;
         }
-
         async Task<Price?> IPriceService.UpdatePrice(int id, Price price, string token)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
