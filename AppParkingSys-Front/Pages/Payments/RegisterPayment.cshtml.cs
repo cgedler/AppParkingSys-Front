@@ -15,7 +15,7 @@ namespace AppParkingSys_Front.Pages.Payments
         [BindProperty]
         public Ticket? ticket { get; set; }
         [BindProperty]
-        public decimal? Amount { get; set; }
+        public Payment? payment { get; set; }
         public RegisterPaymentModel(ILogger<RegisterPaymentModel> logger, ITicketService ticketService, IPaymentService paymentService)
         {
             _logger = logger;
@@ -45,24 +45,34 @@ namespace AppParkingSys_Front.Pages.Payments
             }
             return Page();
         }
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(int id)
         {
-            Ticket ticket = new Ticket();
-            ticket.EntryTime = DateTime.Now;
-            ticket.ExitTime = null;
-            var result = await _ticketService.RegisterTicket(ticket);
-            if (result != null)
+            var token = GetTokenFromCookie();
+            if (token == null)
             {
-                var ticketId = result.Id;
-                TempData["Message"] = ticketId + " Ticket was register";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "No information found to display.";
-                _logger.LogError("No information found to display.");
+                TempData["ErrorMessage"] = "No active token found for the request.";
+                _logger.LogError("No active token found for the request.");
                 return RedirectToPage("/Error");
             }
-            return Page();
+            if (this.ticket != null && this.payment != null)
+            {
+                this.payment.TicketId = id;
+                this.payment.PaymentDate = DateTime.Now;
+                var result_payment = await _paymentService.RegisterPayment(this.payment, token);
+                this.ticket.ExitTime = DateTime.Now;
+                var result_ticket = await _ticketService.UpdateTicket(id, this.ticket, token);
+                if (result_ticket != null && result_payment != null)
+                {
+                    TempData["Message"] = "Ticket was update and the payment was recorded.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Could not save data.";
+                    _logger.LogError("Could not save data.");
+                    return RedirectToPage("/Error");
+                }
+            }
+            return RedirectToPage("/Payments/PaymentGetAllToPay");
         }
         public string? GetTokenFromCookie()
         {

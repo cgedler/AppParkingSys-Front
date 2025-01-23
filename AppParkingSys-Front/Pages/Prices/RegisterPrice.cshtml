@@ -3,6 +3,11 @@
 @{
     Layout = "~/Pages/Shared/_Layout.cshtml";
     ViewData["Title"] = "Register Price";
+    var Message = TempData["Message"] as string;
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+    <p class="alert-info">@Message</p>
 }
 <form method="post">
     <!-- Amount input -->

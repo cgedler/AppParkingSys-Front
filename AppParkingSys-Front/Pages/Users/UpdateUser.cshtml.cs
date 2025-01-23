@@ -57,8 +57,8 @@ namespace AppParkingSys_Front.Pages.Users
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "No information found to display.";
-                    _logger.LogError("No information found to display.");
+                    TempData["ErrorMessage"] = "Could not save data.";
+                    _logger.LogError("Could not save data.");
                     return RedirectToPage("Error");
                 }
             }

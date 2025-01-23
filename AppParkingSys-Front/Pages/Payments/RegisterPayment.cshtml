@@ -3,13 +3,7 @@
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
 	ViewData["Title"] = "Register Payment";
-	var Message = TempData["Message"] as string;
 }
-@if (!string.IsNullOrEmpty(Message))
-{
-	<p class="alert-info">@Message</p>
-}
-<h1>Tickets</h1>
 <form method="post">
 	<!-- Id input -->
 	<div class="form-group">
@@ -25,8 +19,8 @@
 
 	<!-- Amount input -->
 	<div class="form-group">
-		<input asp-for="@Model.Amount" type="number" class="form-control" />
-		<label asp-for="Amount" class="form-label">Amount</label>
+		<input asp-for="@Model.payment.Amount" type="number" class="form-control" />
+		<label asp-for="payment.Amount" class="form-label">Amount</label>
 	</div>
 	<!-- Submit button -->
 	<button type="submit" class="btn btn-primary btn-block mb-4">Register</button>

@@ -23,7 +23,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-
 // Configuration Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

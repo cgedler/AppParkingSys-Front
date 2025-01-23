@@ -14,7 +14,6 @@ namespace AppParkingSys_Front.Services
         private readonly ILogger<AuthService> _logger;
         private readonly IHttpClientFactory _httpClientFactory; 
         private readonly IConfiguration _configuration;
-
         public AuthService(ILogger<AuthService> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
@@ -22,12 +21,10 @@ namespace AppParkingSys_Front.Services
             _configuration = configuration;
            
         }
-
         Task<bool> IAuthService.IsTokenValidAsync()
         {
             throw new NotImplementedException();
         }
-
         async Task<string> IAuthService.LoginAsync(string email, string password)
         {
             var client = _httpClientFactory.CreateClient("ApiClient");
@@ -42,6 +39,5 @@ namespace AppParkingSys_Front.Services
             }
             return "null";
         }
-
     }
 }

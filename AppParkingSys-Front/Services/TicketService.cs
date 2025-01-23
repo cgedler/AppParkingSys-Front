@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Sockets;
 using System.Text;
 
 namespace AppParkingSys_Front.Services
@@ -66,6 +67,25 @@ namespace AppParkingSys_Front.Services
             _logger.LogError("obj " + dataToJson);
             var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
             var httpResponse = await client.PostAsync("ticket", httpContent);
+            if (httpResponse.Content != null)
+            {
+                var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Ticket?>(responseContent);
+            }
+            return null;
+        }
+        async Task<Ticket?> ITicketService.UpdateTicket(int id, Ticket ticket, string token)
+        {
+            var client = _httpClientFactory.CreateClient("ApiClient");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            object obj = new
+            {
+                id = id,
+                exitTime = ticket.ExitTime
+            };
+            string dataToJson = JsonConvert.SerializeObject(obj);
+            var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
+            var httpResponse = await client.PutAsync("ticket/" + id, httpContent);
             if (httpResponse.Content != null)
             {
                 var responseContent = await httpResponse.Content.ReadAsStringAsync();
