@@ -3,24 +3,40 @@
 @{
 	Layout = "~/Pages/Shared/_Layout.cshtml";
 	ViewData["Title"] = "Register Payment";
+	string amountcalc = String.Format("{0:0.00}", Model.amountCalculate);
 }
 <form method="post">
 	<!-- Id input -->
 	<div class="form-group">
-	<input asp-for="@Model.ticket.Id" type="number" class="form-control" disabled />
-	<label asp-for="ticket.Id" class="form-label">Id</label>
+		<input asp-for="@Model.ticket.Id" name="Id" type="number" class="form-control" disabled />
+		<label class="form-label">Id</label>
 	</div>
 
 	<!-- EntryTime input -->
 	<div class="form-group">
-	<input asp-for="@Model.ticket.EntryTime" type="date" class="form-control" disabled />
-	<label asp-for="ticket.EntryTime" class="form-label">EntryTime</label>
-		</div>
+		<input asp-for="@Model.ticket.EntryTime" name="EntryTime" type="datetime" class="form-control" disabled />
+		<label class="form-label">EntryTime</label>
+		<input type="hidden" name="EntryTime" value="@Model.ticket.EntryTime" />
+	</div>
+
+	<!-- ExitTime input -->
+	<div class="form-group">
+		<input asp-for="@Model.ticket.ExitTime" name="ExitTime" type="datetime" class="form-control" disabled />
+		<label class="form-label">ExitTime</label>
+		<input type="hidden" name="ExitTime" value="@Model.ticket.ExitTime" />
+	</div>
+
+	<!-- AmountCalculate input -->
+	<div class="form-group">
+		<input value="@amountcalc" name="amountCalculate" type="number" class="form-control" disabled />
+		<label class="form-label">Amount Calculate</label>
+		<input type="hidden" name="amountCalculate" value="@Model.amountCalculate" />
+	</div>
 
 	<!-- Amount input -->
 	<div class="form-group">
-		<input asp-for="@Model.payment.Amount" type="number" class="form-control" />
-		<label asp-for="payment.Amount" class="form-label">Amount</label>
+		<input asp-for="@Model.payment.Amount" name="Amount" type="number" class="form-control" />
+		<label class="form-label">Amount</label>
 	</div>
 	<!-- Submit button -->
 	<button type="submit" class="btn btn-primary btn-block mb-4">Register</button>

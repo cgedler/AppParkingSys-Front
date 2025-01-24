@@ -54,6 +54,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPriceService, PriceService>();
+builder.Services.AddScoped<ICalculateRateService, CalculateRateService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();

@@ -64,7 +64,6 @@ namespace AppParkingSys_Front.Services
                 exitTime = ticket.ExitTime
             };
             string dataToJson = JsonConvert.SerializeObject(obj);
-            _logger.LogError("obj " + dataToJson);
             var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
             var httpResponse = await client.PostAsync("ticket", httpContent);
             if (httpResponse.Content != null)
@@ -81,6 +80,7 @@ namespace AppParkingSys_Front.Services
             object obj = new
             {
                 id = id,
+                entryTime = ticket.EntryTime,
                 exitTime = ticket.ExitTime
             };
             string dataToJson = JsonConvert.SerializeObject(obj);

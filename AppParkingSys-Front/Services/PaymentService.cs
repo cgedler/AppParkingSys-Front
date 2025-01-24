@@ -27,7 +27,6 @@ namespace AppParkingSys_Front.Services
                 ticketId = payment.TicketId 
             };
             string dataToJson = JsonConvert.SerializeObject(obj);
-            _logger.LogError("obj " + dataToJson);
             var httpContent = new StringContent(dataToJson, Encoding.UTF8, "application/json");
             var httpResponse = await client.PostAsync("payment", httpContent);
             if (httpResponse.Content != null)
